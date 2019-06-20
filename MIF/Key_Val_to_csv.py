@@ -117,7 +117,7 @@ def attach_csv_file( conn, obj, data ):
 def run_script():
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    data_types = [rstring('Dataset')]
+    data_types = map(rstring,'Project Dataset'.split())
     client = scripts.client(
         'Create_Metadata_csv',
         """

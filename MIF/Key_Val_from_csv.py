@@ -89,7 +89,7 @@ def remove_MapAnnotations(conn, dtype, Id ):
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 def get_original_file(conn, object_type, object_id, file_ann_id=None):
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    omero_object = conn.getObject("Dataset", int(object_id))
+    omero_object = conn.getObject(object_type, int(object_id))
     if omero_object is None:
         sys.stderr.write("Error: Dataset does not exist.\n")
         sys.exit(1)
@@ -113,7 +113,10 @@ def get_original_file(conn, object_type, object_id, file_ann_id=None):
 def populate_metadata(client, conn, script_params):
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     dataType = script_params["Data_Type"]
+    if( dataType=='Project'): targType = 'Dataset'
+    if( dataType=='Dataset'): targType = 'Image'
     ids      = script_params["IDs"]
+    
 
     datasets = list(conn.getObjects(dataType, ids))
     for ds in datasets:
@@ -146,7 +149,7 @@ def populate_metadata(client, conn, script_params):
 
 
         # keys are in the header row
-        header =data[0]
+        header  = data[0]
         kv_data = header[1:]  # first header is the fimename columns
         rows    = data[1:]
 
@@ -156,8 +159,8 @@ def populate_metadata(client, conn, script_params):
             if( img_name not in dict_name_id ):
                 print("Can't find filename : {}".format(img_name) )
             else:
-                img_ID = dict_name_id[img_name]         # look up the ID
-                img    = conn.getObject('Image',img_ID) # get the img
+                img_ID = dict_name_id[img_name]          # look up the ID
+                img    = conn.getObject(targType,img_ID) # get the img
 
                 existing_kv = get_existing_MapAnnotions( img )
                 updated_kv  = copy.deepcopy(existing_kv)
@@ -181,7 +184,7 @@ def populate_metadata(client, conn, script_params):
                 if( existing_kv != updated_kv ):
                     nimg_updated = nimg_updated + 1
                     print("The key-values pairs are different")
-                    remove_MapAnnotations( conn, 'Image', img.getId()  )
+                    remove_MapAnnotations( conn, targType, img.getId()  )
                     map_ann = omero.gateway.MapAnnotationWrapper(conn)
                     namespace = omero.constants.metadata.NSCLIENTMAPANNOTATION
                     map_ann.setNs(namespace)
@@ -201,7 +204,7 @@ def populate_metadata(client, conn, script_params):
 
 def run_script():
 
-    data_types = [rstring('Dataset')]
+    data_types = map(rstring,'Project Dataset'.split())
     client = scripts.client(
         'Add_Key_Val_from_csv',
         """
