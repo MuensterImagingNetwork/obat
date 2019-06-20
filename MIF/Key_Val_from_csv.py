@@ -193,6 +193,7 @@ def populate_metadata(client, conn, script_params):
                     for k,vset in updated_kv.iteritems():
                         for v in vset:
                             kv_list.append( [k,v] )
+                            
                     map_ann.setValue(kv_list)
                     map_ann.save()
                     img.linkAnnotation(map_ann)                     
