@@ -14,7 +14,7 @@ import os
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 def download_dataset(conn, Id, path, orig=False, tif=False):
-    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     """
     download a dataset from OMERO
         INPUT : conn, the connection needs to be open

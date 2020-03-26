@@ -26,7 +26,6 @@ def download_dataset( conn, Id, path, orig=False, tif=False ):
     if( dataset==None ):
         print("Dataset ID {} not found in group".format(Id))
         sys.exit(1)
-    print("here")
 
     # get the images
     imgs    = list(dataset.listChildren())
@@ -79,7 +78,7 @@ args = parser.parse_args()
 # ===================
 try:
     from omero.gateway import BlitzGateway
-    from Parse_OMERO_Properties_52 import USERNAME, PASSWORD, HOST, PORT
+    from Parse_OMERO_Properties_5_2 import USERNAME, PASSWORD, HOST, PORT
     print(HOST)
     conn = BlitzGateway(USERNAME, PASSWORD, host=HOST, port=PORT)
     conn.connect()
@@ -91,10 +90,9 @@ try:
     print "   Full Name:", user.getFullName()
 
     if( args.group is not None ):
-        print("change group")
+		 #print("change group")
         new_group = args.group
         groups = [ g.getName() for g in conn.listGroups() ]
-        print(groups)
         if( new_group not in groups ):
             print("{} not found in groups:".format(new_group))
             for gn in groups:
@@ -104,11 +102,9 @@ try:
             conn.setGroupNameForSession(new_group)
    
     path    = os.getcwd()
-    print( args.dataset )
     for d_id in args.dataset:
         download_dataset( conn, d_id, path, orig=args.orig, tif=args.tif )
 
-    print(args.project)
     for p_id in args.project:
         project = conn.getObject('Project',p_id)
         path_p = os.path.join(path,project.getName())

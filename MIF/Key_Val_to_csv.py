@@ -151,12 +151,8 @@ def run_script():
         print("connection made")
 
         dataType = script_params["Data_Type"]
-        print(dataType)
         ids      = script_params["IDs"]
         datasets = list(conn.getObjects(dataType, ids))    # generator of images or datasets
-        print(ids)
-        print("datasets:")
-        print( datasets )
         for ds in datasets:
             # name of the file
             csv_name = "{}_metadata_out.csv".format(ds.getName()) 

@@ -32,7 +32,7 @@ import omero
 from omero.gateway import BlitzGateway
 from omero.rtypes import rstring, rlong
 import omero.scripts as scripts
-from omero.model import PlateI, ScreenI, DatasetI
+from omero.model import PlateI, ScreenI, DatasetI, ProjectI
 from omero.rtypes import *
 from omero.cmd import Delete2
 
@@ -112,6 +112,7 @@ def get_original_file(conn, object_type, object_id, file_ann_id=None):
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 def populate_metadata(client, conn, script_params):
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
     dataType = script_params["Data_Type"]
     if( dataType=='Project'): targType = 'Dataset'
     if( dataType=='Dataset'): targType = 'Image'
@@ -136,6 +137,19 @@ def populate_metadata(client, conn, script_params):
         file_handle = provider.get_original_file_data(original_file)
         data =list(csv.reader(file_handle,delimiter=','))   
         file_handle.close()
+
+        # make a table
+        #if( dataType=='Project' ): omero_object = ProjectI(long(ID), False)
+        #if( dataType=='Dataset' ): omero_object = DatasetI(long(ID), False)
+
+        #ctx = ParsingContext(client, omero_object, "")
+        #file_handle = provider.get_original_file_data(original_file)
+        #ctx.parse_from_handle(file_handle)
+        #ctx.write_to_omero()
+        #file_handle.close()
+
+
+
 
         # create a dictionary for image_name:id
         dict_name_id={}
