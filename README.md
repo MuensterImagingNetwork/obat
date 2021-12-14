@@ -1,6 +1,6 @@
 Omero Bulk Annotation Tools (OBAT)
 ==================================
-
+Very NICE ! 
 This repository was forked from https://github.com/evenhuis/omero-user-scripts. Some fixes were applied to make the scripts work with the 
 omero instance at [Max Planck Institute for Evolutionary Biology](www.evolbio.mpg.de). A short tutorial on its usage in combination with the [omero.forms](https://pypi.org/project/omero-forms) plugin was posted [here](https://mpievolbio-scicomp.pages.gwdg.de/blog/post/2020-09-03_omerobulkannotation/) .
 
